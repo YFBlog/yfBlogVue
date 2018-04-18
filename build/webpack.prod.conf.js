@@ -1,5 +1,5 @@
 'use strict'
-const path = require('path')
+const path = require('path') //引入path模块
 const utils = require('./utils')
 const webpack = require('webpack')
 const config = require('../config')
@@ -62,7 +62,9 @@ const webpackConfig = merge(baseWebpackConfig, {
     // see https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
       filename: config.build.index,
+      // filename:'index.html',
       template: 'index.html',
+      favicon:path.resolve('favicon.ico'),//引入icon文件
       inject: true,
       minify: {
         removeComments: true,
