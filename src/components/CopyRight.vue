@@ -12,10 +12,11 @@ export default {
 .copy-right {
   width: 100%;
   padding: 1rem;
+  text-align: center;
   /* 绝对定位，参考点是添加了定位属性的父标签，直到body,会把标签修改为行内块 */
   /* position: absolute; */
-  left: 0;
-  bottom: 0;
+  /* left: 0; */
+  /* bottom: 0; */
   color: #a9a9a9;
 }
 </style>

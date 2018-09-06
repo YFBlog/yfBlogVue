@@ -13,7 +13,10 @@ export default new Vuex.Store({
     state: {
         checkCode: null,
         // 注册码
-        license: "shkYUKhjikjljK867E9fheiohorijlqw"
+        license: "shkYUKhjikjljK867E9fheiohorijlqw",
+        page:'home',
+        username:'',
+        userId:''
     },
     mutations,
     actions,

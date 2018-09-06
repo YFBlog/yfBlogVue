@@ -1,14 +1,13 @@
 <template>
   <div class="protocol">
-    <header-bar>
-      <!-- onclick="window.history.go(-1)":返回上一级 -->
-      <span slot="left" class="fa fa-angle-left" onclick="window.history.go(-1)"></span>
-      <span slot="center">博客服务使用协议</span>
-      <span slot="right"></span>
-    </header-bar>
+    <nav class="header-bar">
+      <!-- window.history.go(-1):返回上一级 -->
+      <span class="fa fa-chevron-left" onclick="window.history.go(-1)"></span>
+      <span>博客用户协议</span>
+      <span></span>
+    </nav>
     <div class="container">
-      <h2>博客服务使用协议</h2>
-      <hr>
+      <h4>《博客用户协议》</h4>
       <article>
           1. 特别提示
         1.1
@@ -333,33 +332,36 @@
     </div>
   </div>
 </template>
-
 <script>
-import HeaderBar from "../HeaderBar";
 export default {
-  name: "Protocol",
-  components: {
-    HeaderBar
-  }
+  name: "Protocol"
 };
 </script>
 <style scoped>
+.header-bar {
+  width: 100%;
+  height: 40px;
+  padding: 0.5rem 2rem;
+  font-size: 1.8rem;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 10;
+  background-color: #f9f9fa;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
 .protocol {
   background-color: aliceblue;
-}
-div.header-bar {
-  background-color: #f9f9fa;
-  /* font-size: 1.5em; */
-  font-weight: lighter;
 }
 .container {
   padding-top: 40px;
   text-align: center;
 }
-h2 {
-  font-size: 2.5rem;
-  margin: 0.5em;
+h4 {
+  padding-bottom: 5px;
+  border-bottom: 1px solid white;
 }
 </style>
-
-

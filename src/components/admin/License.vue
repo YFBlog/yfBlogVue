@@ -21,7 +21,7 @@ export default {
   },
   mounted: function() {
     axios
-      .get("http://localhost:4000/admin/register/license")
+      .get("/admin/register/license")
       .then(
         function(res) {
           if (res.data.code == 1) {

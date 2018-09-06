@@ -1,91 +1,86 @@
 <template>
-  <div class="register container">
-    <div class="row">
-      <div class="col-lg-5 col-md-5 col-sm-5 img">
-        <img src="../../assets/register.jpg" alt="图片加载异常，无法显示">
-      </div>
-      <div id="register" class="col-lg-4 col-md-4 col-sm-5">
-        <h2>账号注册</h2><hr>
-        <!-- action="http://localhost:4000/user/register" method="post" -->
-        <!-- has-feedback类添加正确的图标 -->
-        <form class="form" @submit.prevent="submit()">
-          <div class="username form-group">
-            <div class="input-group">
-              <label for="username" class="input-group-addon">
-                <span class="glyphicon glyphicon-user"></span>
-              </label>
-              <input type="text" class="form-control" id="username" placeholder="请输入用户名/邮箱/手机号" required name="username" pattern="^[\w\u4e00-\u9fa5!@#$￥%&]{2,15}$" v-model="username">
-              <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-            </div>
-            <small style="display:none">以字母、数字、下划线、汉字或特殊字母开头的2~15位字符</small>
+  <div class="register">
+    <caption-bar></caption-bar>
+    <div class="login-up">
+      <form class="form" @submit.prevent="submit()">
+        <h4><span class="fa fa-users"></span> 用户注册</h4>
+        <div class="divide"></div>
+        <div class="username form-group">
+          <div class="input-group" :class="isUsernameSuccess">
+            <label for="username" class="input-group-addon">
+              <span class="glyphicon glyphicon-user"></span>
+            </label>
+            <!-- v-model.trim:自动忽略前后空格 -->
+              <!--   -->
+            <input type="text" class="form-control" id="username" placeholder="请输入用户名/邮箱/手机号" required name="username" v-model.lazy="username" pattern="^[\w\u4e00-\u9fa5!@#$￥%&]{2,15}$">
+            <span class="glyphicon form-control-feedback" :class="isUsernameOk" aria-hidden="true"></span>
           </div>
-          <div class="password form-group">
-            <div class="input-group">
-              <label for="password" class="input-group-addon">
-                <span class="glyphicon glyphicon-lock"></span>
-              </label>
-              <input type="password" class="form-control" id="password" placeholder="请输入密码" required name="password" pattern="^[\w!@#$￥%&]{6,12}$" v-model="password">
-              <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-            </div>
-            <small style="display:none">以字母、数字、下划线或特殊字母开头的6~12位字符</small>
+          <small>{{usernameHint}}</small>
+        </div>
+        <div class="password form-group">
+          <div class="input-group" :class="isPwdSuccess">
+            <label for="password" class="input-group-addon">
+              <span class="glyphicon glyphicon-lock"></span>
+            </label>
+            <input type="password" class="form-control" id="password" placeholder="请输入密码" required name="password" pattern="^[\w!@#$￥%&]{6,12}$" v-model.lazy="password">
+            <span class="glyphicon form-control-feedback" aria-hidden="true" :class="isPwdOk"></span>
           </div>
-          <div class="confirm form-group">
-            <div class="input-group">
-              <label for="confirm" class="input-group-addon">
-                <span class="glyphicon glyphicon-check"></span>
-              </label>
-              <input type="password" class="form-control" id="confirm" placeholder="请确认密码" required pattern="^[\w!@#$￥%&]{6,12}$" v-model="confirm">
-              <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-            </div>
-            <small style="display:none">以字母、数字、下划线或特殊字母开头的6~12位字符并且与已输入密码相同</small>
+          <small>{{passwordHint}}</small>
+        </div>
+        <div class="confirm form-group">
+          <div class="input-group" :class="confirm?isConfirmSuccess:'has-success'">
+            <label for="confirm" class="input-group-addon">
+              <span class="glyphicon glyphicon-check"></span>
+            </label>
+            <input type="password" class="form-control" id="confirm" placeholder="请确认密码" required pattern="^[\w!@#$￥%&]{6,12}$" v-model.lazy="confirm">
+            <span class="glyphicon form-control-feedback" aria-hidden="true" :class="isConfirmOk"></span>
           </div>
-          <check-code class="has-success">
-            <input type="text" id="checkcode" class="form-control" placeholder="请输入验证码" v-model="checkCode">
-          </check-code>
-          <div class="form-group text-center">
-            <input class="submit btn btn-success" type="submit" value="立即注册">
-          </div>
-          <div class="form-group">
-            <span class="fa fa-check-circle-o" v-if="isRead" @click="isRead=!isRead"></span>
-            <span class="fa fa-check-circle" v-if="!isRead" @click="isRead=!isRead"></span>
-            <small>注册即代表您阅读并同意
-              <router-link to="/user/register/protocol">
-                <span>博客服务协议</span>
-              </router-link>
-            </small>
-          </div>
-          <hr>
-          <div>
-            已有账号，立即
-            <router-link to="/user/login">登录</router-link>
-          </div>
-        </form>
-        <copy-right></copy-right>
+          <small>{{confirmHint}}</small>
+        </div>
+        <check-code class="has-success">
+          <input type="text" id="checkcode" class="form-control" placeholder="请输入验证码" v-model="checkCode">
+        </check-code>
+        <div class="form-group isread">
+          <input type="checkbox" v-model="isRead" id="isread">
+          接受
+          <router-link to="/user/register/protocol">博客用户协议</router-link>
+          <input class="submit btn btn-success pull-right" type="submit" value="立即注册">
+        </div>
+      </form>
+      <div class="back">
+        <router-link to="/user/login">
+        <i class="fa fa-arrow-left"></i>
+        <strong>返回登录</strong></router-link>
       </div>
     </div>
-    <!-- row -->
   </div>
-  <!-- container -->
 </template>
 <script>
 import axios from "axios";
-import HeaderBar from "../HeaderBar";
-import CopyRight from "../CopyRight";
+import CaptionBar from "../CaptionBar";
 import CheckCode from "../CheckCode";
 
 export default {
   name: "Register",
   components: {
-    HeaderBar,
-    CopyRight,
+    CaptionBar,
     CheckCode
   },
   data() {
     return {
       isRead: true,
       username: "",
+      usernameHint: "",
+      isUsernameSuccess: "has-success",
+      isUsernameOk: "",
       password: "",
+      passwordHint: "",
+      isPwdSuccess: "has-success",
+      isPwdOk: "",
       confirm: "",
+      confirmHint:'',
+      isConfirmSuccess: "has-info",
+      isConfirmOk: "",
       checkCode: ""
     };
   },
@@ -95,46 +90,37 @@ export default {
       if (this.username != "") {
         $("div.username>small").show();
         const regexp = /^[\w\u4e00-\u9fa5!@#$￥%&]{2,15}$/;
-        // console.log(regexp.test(this.username));
+        console.log(regexp.test(this.username));
         if (regexp.test(this.username) == true) {
           const username = "username=" + this.username;
           axios
-            .get("http://localhost:4000/user/exist?" + username)
-            .then(function(res) {
-              if (res.data.code == 1) {
-                $("div.username>div")
-                  .removeClass("has-error")
-                  .addClass("has-success");
-                $("div.username>div>span")
-                  .removeClass("glyphicon-remove")
-                  .addClass("glyphicon-ok");
-                $("div.username>small").hide();
-              } else {
-                $("div.username>div")
-                  .removeClass("has-success")
-                  .addClass("has-error");
-                $("div.username>div>span")
-                  .removeClass("glyphicon-ok")
-                  .addClass("glyphicon-remove");
-                $("div.username>small").show();
-              }
-            })
+            .get("/user/exist?" + username)
+            .then(
+              function(res) {
+                if (res.data.code == 1) {
+                  this.usernameHint = "";
+                  this.isUsernameSuccess = "has-success";
+                  this.isUsernameOk = "glyphicon-ok";
+                } else {
+                  this.usernameHint = res.data.message;
+                  this.isUsernameSuccess = "has-error";
+                  this.isUsernameOk = "glyphicon-remove";
+                }
+              }.bind(this)
+            )
             .catch(function(error) {
               console.log(error, "发生错误");
             });
         } else {
-          $("div.username>div")
-            .removeClass("has-success")
-            .addClass("has-error");
-          $("div.username>div>span")
-            .removeClass("glyphicon-ok")
-            .addClass("glyphicon-remove");
-          $("div.username>small").show();
+          this.usernameHint =
+            "以字母、数字、下划线、汉字或特殊字母开头的2~15位字符";
+          this.isUsernameSuccess = "has-error";
+          this.isUsernameOk = "glyphicon-remove";
         }
       } else {
-        $("div.username>div").removeClass("has-success has-error");
-        $("div.username>div>span").removeClass("glyphicon-remove glyphicon-ok");
-        $("div.username>small").hide();
+        this.usernameHint = "has-success";
+        this.isUsernameSuccess = "has-error";
+        this.isUsernameOk = "glyphicon-remove";
       }
     },
     // 监听密码是否符合要求
@@ -142,26 +128,18 @@ export default {
       if (this.password != "") {
         const regexp = /^[\w!@#$￥%&]{6,12}$/;
         if (regexp.test(this.password)) {
-          $("div.password>div")
-            .removeClass("has-error")
-            .addClass("has-success");
-          $("div.password>div>span")
-            .removeClass("glyphicon-remove")
-            .addClass("glyphicon-ok");
-          $("div.password>small").hide();
+          this.passwordHint = "";
+          this.isPwdSuccess = "has-success";
+          this.isPwdOk = "glyphicon-ok";
         } else {
-          $("div.password>div")
-            .removeClass("has-success")
-            .addClass("has-error");
-          $("div.password>div>span")
-            .removeClass("glyphicon-ok")
-            .addClass("glyphicon-remove");
-          $("div.password>small").show();
+          this.passwordHint = "以字母、数字、下划线或特殊字母开头的6~12位字符";
+          this.isPwdSuccess = "has-error";
+          this.isPwdOk = "glyphicon-remove";
         }
       } else {
-        $("div.password>div").removeClass("has-success has-error");
-        $("div.password>div>span").removeClass("glyphicon-remove glyphicon-ok");
-        $("div.password>small").hide();
+        this.passwordHint = "";
+        this.isPwdSuccess = "has-success";
+        this.isPwdOk = "";
       }
     },
     // 检测确认密码是否符合要求
@@ -169,26 +147,18 @@ export default {
       if (this.confirm != "") {
         const regexp = /^[\w!@#$￥%&]{6,12}$/;
         if (regexp.test(this.confirm) && this.confirm == this.password) {
-          $("div.confirm>div")
-            .removeClass("has-error")
-            .addClass("has-success");
-          $("div.confirm>div>span")
-            .removeClass("glyphicon-remove")
-            .addClass("glyphicon-ok");
-          $("div.confirm>small").hide();
+          this.confirmHint='';
+          this.isConfirmSuccess='has-success';
+          this.isConfirmOk='glyphicon-ok';
         } else {
-          $("div.confirm>div")
-            .removeClass("has-success")
-            .addClass("has-error");
-          $("div.confirm>div>span")
-            .removeClass("glyphicon-ok")
-            .addClass("glyphicon-remove");
-          $("div.confirm>small").show();
+          this.isConfirmSuccess='has-error';
+          this.isConfirmOk='glyphicon-remove';
+          this.confirmHint='以字母、数字、下划线或特殊字母开头的6~12位字符并且与已输入密码相同';
         }
       } else {
-        $("div.confirm>div").removeClass("has-success has-error");
-        $("div.confirm>div>span").removeClass("glyphicon-remove glyphicon-ok");
-        $("div.confirm>small").hide();
+        this.confirmHint='';
+        this.isConfirmSuccess='has-success';
+        this.isConfirmOk='';
       }
     }
   },
@@ -205,16 +175,19 @@ export default {
           // 判断是否同意《博客服务协议》
           if (this.isRead == true) {
             axios
-              .post("http://localhost:4000/user/register", user)
-              .then(function(res) {
-                console.log(res.data);
-                if (res.data.code == 1) {
-                  alert(res.data.message);
-                  location.href = "http://localhost:8080/#/user/login";
-                } else {
-                  alert(res.data.message);
-                }
-              })
+              .post("/user/register", user)
+              .then(
+                function(res) {
+                  console.log(res.data);
+                  if (res.data.code == 1) {
+                    alert(res.data.message);
+                    location.href = "/#/user/login";
+                  } else {
+                    alert(res.data.message);
+                    this.username = "";
+                  }
+                }.bind(this)
+              )
               .catch(function(error) {
                 console.log(error);
               });
@@ -223,6 +196,7 @@ export default {
           }
         } else {
           alert("验证码输入有误，请重新输入！");
+          this.checkCode = "";
         }
       } else {
         alert("密码与确认密码输入不一致，请重新输入！");
@@ -233,58 +207,47 @@ export default {
 </script>
 <style scoped>
 .register {
-  width: 100%;
+  padding: 10px 5px;
 }
-div.row {
-  display: flex;
-  justify-content: space-between;
-  height: 100vh;
+.login-up {
+  min-width: 320px;
+  max-width: 360px;
+  margin: 0 auto;
+  border-radius: 5px;
+  box-shadow: 0 0 9px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
 }
-img {
-  width: 100%;
-  height: 100%;
+form {
+  padding: 10px;
+  background: #f7f7f7;
 }
-
-#register {
-  padding-top: 30px;
+.login-up h4 {
+  color: #69aa46;
 }
-#register > form {
-  width: 100%;
+.login-up h4 .fa {
+  color: #478fca;
 }
-form .submit {
-  width: 100%;
+.divide {
+  border: 0.7px solid #cce2c1;
+  margin: 20px 0;
 }
-.fa-check-circle {
-  color: lightgray;
+input#isread {
+  vertical-align: middle;
+  margin: 0;
 }
-form div.form-group:nth-of-type(-n + 3) > small {
+.isread a {
+  color: #23527c;
+}
+.back {
+  background: #76b774;
+  text-align: center;
+  padding: 10px;
+}
+.back a {
+  color: #fe9;
+}
+form div.form-group> small {
   color: red;
-}
-div.copy-right{
-  position: absolute;
-}
-@media screen and (max-width: 768px) {
-  h2 {
-    width: 100%;
-    position: fixed;
-    background-color: #5cb85c;
-    left: 0;
-    top: 0;
-    margin: 0;
-    padding: 10px;
-    color: white;
-    text-align: center;
-  }
-  .row {
-    padding: 0 10px;
-  }
-  div.img {
-    display: none;
-  }
-  #register {
-    width: 320px;
-    padding: 30px 0 0 0;
-  }
 }
 </style>
 

@@ -1,21 +1,30 @@
 <template>
-  <div class="search-box container">
-      <div class="form-group has-feedback">
-          <input type="text" class="form-control" aria-describedby="search">
-          <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true"></span>
+  <form class="navbar-form search-box">
+    <div class="form-group input-group">
+      <input type="text" v-model="search" class="form-control" placeholder="搜索博客、找人 ">
+      <div class="input-group-addon" @click="searchHandle()">
+        <span class="glyphicon glyphicon-search"></span>
       </div>
-  </div>
+    </div>
+  </form>
 </template>
 <script>
+import bus from "../bus";
 export default {
   name: "SearchBox",
   data() {
-    return {};
+    return {
+      search: ""
+    };
+  },
+  methods: {
+    searchHandle() {
+      bus.$emit("search", this.search);
+    }
   }
 };
 </script>
 <style scoped>
-
 </style>
 
 

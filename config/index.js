@@ -20,7 +20,7 @@ module.exports = {
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
 
-    
+
     /**
      * Source Maps
      */
@@ -33,7 +33,20 @@ module.exports = {
     // https://vue-loader.vuejs.org/en/options.html#cachebusting
     cacheBusting: true,
 
-    cssSourceMap: true
+    cssSourceMap: true,
+    // 添加配置 解决跨域问题
+    proxyTable: {
+      '/': {
+        target: 'http://localhost:3000/',
+        // 改变源 改变
+        changeOrigin: true,
+        // 服务器与测试服务器有时不同，重写地址，测试地址与真实接口有差异的时候
+        // 如发请求时 如：请求前加test
+        pathRewrite: {
+          '^/': ''
+        }
+      }
+    }
   },
 
   build: {
@@ -66,4 +79,5 @@ module.exports = {
     // Set to `true` or `false` to always turn it on or off
     bundleAnalyzerReport: process.env.npm_config_report
   }
+
 }

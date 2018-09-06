@@ -3,29 +3,31 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <!-- 适应手机屏幕 -->
+  <meta name="viewport" content="width=device-width,
+   initial-scale=1.0, maximum-scale=1.0, user-scalable=no,minimum-scale=1.0" />
   <!-- 跨域设置 -->
   <meta http-equiv="Access-Control-Allow-Origin" content="*">
-  <title>微博首页</title>
+  <title>博客首页</title>
   <!-- 标题栏图标 -->
   <link rel="icon" href="./favicon.ico" type="image/x-icon">
   <!-- 引入font-awesome字体图标库 -->
   <link rel="stylesheet" href="static/font-awesome/css/font-awesome.min.css">
-  <!-- <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
   <link href="static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="static/animate.css">
   <script src="static/jquery-3.3.1.js"></script>
-
   <script src="static/bootstrap/js/bootstrap.min.js"></script>
-  <!-- <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->
 </head>
 <style>
   * {
     box-sizing: border-box;
   }
+  /* html{
+    height: 100%;
+  } */
 
   body {
     margin: 0;
-    /* height: 100%; */
     background-color: #f9f9fa;
   }
 </style>
@@ -44,11 +46,9 @@
 
 <!-- 
   vue 项目中，配置图标及文字
-
     1，在网站根目录下的 index.html 文件中 title 标签中添加标题栏文字
     2，将图片.ico 文件放在网站根目录下
     3，修改 build 文件夹下 webpack.prod.conf.js 和 webpack.dev.conf.js 文件
-
 var path = require('path') // 开头引入 path 模块
 ....
 // HtmlWebpackPlugin 中添加 favicon
